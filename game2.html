@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .game-container {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .mines-counter {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, 50px);
+      grid-gap: 5px;
+    }
+
+    .box {
+      width: 50px;
+      height: 50px;
+      background-color: #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .box:hover {
+      background-color: #ddd;
+    }
+
+    .box[data-mine="true"] {
+      background-color: #ff6347; /* Red */
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="mines-counter">
+      Mines Selected: <span id="mines-selected">0</span>
+    </div>
+    <div>
+      <label for="mines-dropdown">Mines: </label>
+      <select id="mines-dropdown" onchange="updateMines(this.value)">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+      </select>
+    </div>
+    <div class="board" id="board"></div>
+  </div>
+  <script>
+    const board = document.getElementById('board');
+    const minesSelectedElement = document.getElementById('mines-selected');
+    let minesSelected = 0;
+
+    function createBoard() {
+      for (let i = 0; i < 25; i++) {
+        const box = document.createElement('div');
+        box.classList.add('box');
+        box.setAttribute('data-mine', 'false');
+        box.addEventListener('click', () => {
+          toggleMine(box);
+        });
+        board.appendChild(box);
+      }
+    }
+
+    function toggleMine(box) {
+      const isMine = box.getAttribute('data-mine') === 'true';
+      if (isMine) {
+        box.setAttribute('data-mine', 'false');
+        box.style.backgroundColor = '#ccc';
+        minesSelected--;
+      } else {
+        box.setAttribute('data-mine', 'true');
+        box.style.backgroundColor = '#ff6347'; /* Red */
+        minesSelected++;
+      }
+      minesSelectedElement.textContent = minesSelected;
+    }
+
+    function updateMines(value) {
+      minesSelected = parseInt(value);
+      minesSelectedElement.textContent = minesSelected;
+    }
+
+    createBoard();
+  </script>
+</body>
+</html>
